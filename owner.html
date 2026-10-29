@@ -232,13 +232,27 @@ async function load() {
     const r = await fetch(BOOKING_ENDPOINT, {method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"},
       body: JSON.stringify({type: "dashboard", pin})}).then(r => r.json());
     if (r.result !== "success") { store.set("wb-owner-pin", ""); return askPin("Wrong PIN."); }
-    DATA = r; NOW = new Date(); show();
+    DATA = r; NOW = new Date(); lastLoad = Date.now(); show();
   } catch { $("asOf").textContent = "Couldn't reach the sheet. Showing last load."; if (DATA) show(); }
   finally { document.body.style.opacity = 1; }
 }
+// Auto-refresh: every 2 minutes while the page is on screen, and right away
+// when you come back to it (if the last load is over a minute old).
+const REFRESH_MS = 2 * 60e3;
+let lastLoad = 0, loading = false;
+async function refresh(force) {
+  if (!BOOKING_ENDPOINT || loading || !store.get("wb-owner-pin")) return;
+  if (!force && Date.now() - lastLoad < 60e3) return;
+  loading = true;
+  try { await load(); } finally { loading = false; }
+}
+setInterval(() => { if (document.visibilityState === "visible") refresh(true); }, REFRESH_MS);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(false); });
+addEventListener("focus", () => refresh(false));
+
 function askPin(err) { $("dash").hidden = true; $("pinView").hidden = false; $("pinErr").textContent = err || ""; $("pinIn").focus(); }
 $("pinForm").addEventListener("submit", e => { e.preventDefault(); store.set("wb-owner-pin", $("pinIn").value.trim()); $("pinView").hidden = true; load(); });
-$("refresh").addEventListener("click", load);
+$("refresh").addEventListener("click", () => BOOKING_ENDPOINT ? refresh(true) : load());
 $("lock").addEventListener("click", () => { store.set("wb-owner-pin", ""); BOOKING_ENDPOINT ? askPin() : null; });
 document.querySelectorAll("[data-range]").forEach(b => b.addEventListener("click", () => {
   RANGE = b.dataset.range;
@@ -249,7 +263,8 @@ document.querySelectorAll("[data-range]").forEach(b => b.addEventListener("click
 function show() {
   $("pinView").hidden = true; $("dash").hidden = false;
   $("sampleBadge").hidden = !DATA.sample;
-  $("asOf").textContent = "Updated " + new Date(DATA.asOf).toLocaleString(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"});
+  $("asOf").textContent = "Updated " + new Date(DATA.asOf).toLocaleString(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}) +
+    (DATA.sample ? "" : " · auto-refreshes");
   renderToday(); renderBusiness();
 }
 
