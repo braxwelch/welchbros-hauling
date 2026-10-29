@@ -124,6 +124,19 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--orange);outline-
 .err{color:#B3261E;font-size:14px;font-weight:600;min-height:20px}
 .preview-note{background:#FFF4E5;border:1px solid var(--orange);border-radius:10px;padding:10px 14px;font-size:14px;margin-bottom:18px}
 
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media (max-width:560px){.modes{grid-template-columns:1fr}}
+.mode{font:inherit;text-align:left;background:var(--white);border:2px solid var(--line);border-radius:14px;padding:14px 18px;cursor:pointer;min-height:64px;color:var(--ink)}
+.mode b{display:block;font-size:18px}
+.mode span{font-size:14px;color:var(--muted)}
+.mode[aria-pressed=true]{border-color:var(--green);background:#EEF3EF;box-shadow:inset 0 0 0 1px var(--green)}
+.mode:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.callout{font-size:15px;color:var(--muted);margin:14px 0 0}
+.linkbtn{font:inherit;font-weight:800;color:var(--green);background:none;border:0;padding:4px 0;text-decoration:underline;cursor:pointer}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.thumbs img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+input[type=file]{font:inherit;font-size:15px;padding:10px;border:1px dashed #B9B3A4;border-radius:10px;background:var(--bone)}
+.book.solo{grid-template-columns:1fr;max-width:720px}
 #done{display:none;background:var(--white);border:2px solid var(--green);border-radius:16px;padding:32px;text-align:center}
 #done h3{font-size:34px;color:var(--green);margin-bottom:10px}
 
@@ -162,7 +175,7 @@ footer a{color:var(--white)}
       <p>Family-owned junk removal in Montgomery. We load it, haul it, and sweep up. Upfront pricing by how much of the trailer you fill.</p>
       <div class="hero-ctas">
         <a class="btn btn-orange" href="#book">Get your price &amp; book</a>
-        <a class="btn btn-ghost" id="textLink" href="#">Text us a photo</a>
+        <a class="btn btn-ghost" href="#quote">Get a free quote</a>
       </div>
       <div class="trust">
         <span>✓ Price before we load</span><span>✓ Usable stuff donated</span><span>✓ Local &amp; family-owned</span>
@@ -240,15 +253,19 @@ footer a{color:var(--white)}
 <section id="book">
   <div class="wrap">
     <div class="eyebrow">BOOK A PICKUP</div>
-    <h2>Get your price and pick a time.</h2>
-    <div class="book">
+    <h2>Book it, or get a free quote.</h2>
+    <div class="modes" role="group" aria-label="How do you want to start?">
+      <button type="button" class="mode" id="modeBook" aria-pressed="true"><b>Book at a set price</b><span>I know about how much I have</span></button>
+      <button type="button" class="mode" id="modeQuote" aria-pressed="false"><b>Get a free quote</b><span>Not sure? Send photos, we'll price it</span></button>
+    </div>
+    <div class="preview-note" id="previewNote" hidden>Preview mode: requests show a confirmation but aren't saved yet.</div>
+    <div class="book" id="bookWrap">
       <div>
         <form id="bookForm" novalidate>
-          <div class="preview-note" id="previewNote" hidden>Preview mode: bookings show a confirmation but aren't saved yet.</div>
-
           <fieldset>
             <legend>1. How much stuff?</legend>
             <div class="loads" id="loadOpts"></div>
+            <p class="callout">Concrete, dirt, roofing, a hot tub, piano, shed, or a whole house? <button type="button" class="linkbtn" data-goquote>Get a free quote instead</button></p>
           </fieldset>
 
           <fieldset>
@@ -296,14 +313,56 @@ footer a{color:var(--white)}
           <p class="fine" style="text-align:center">We'll text you to confirm within a few hours. Nothing is charged online.</p>
         </form>
 
+        <form id="quoteForm" novalidate hidden>
+          <fieldset>
+            <legend>1. Show us the pile</legend>
+            <div class="field">
+              <label class="l" for="qPhotos">Photos <span style="font-weight:400;color:var(--muted)">(up to 6 — a wide shot of everything helps most)</span></label>
+              <input type="file" id="qPhotos" accept="image/*" multiple>
+              <div class="thumbs" id="qThumbs"></div>
+            </div>
+            <div class="field"><label class="l" for="qItems">What is it?</label><textarea id="qItems" placeholder="e.g. old hot tub on the back deck, plus a pile of fence boards"></textarea></div>
+            <div class="field"><label class="l" for="qWhere">Where is it?</label>
+              <select id="qWhere"><option value="">Choose…</option><option>Curbside / driveway</option><option>Garage or carport</option><option>Inside, ground floor</option><option>Inside, upstairs or basement</option><option>Attic</option><option>Backyard / shed</option><option>Several places</option></select></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>2. Where and when?</legend>
+            <div class="field"><label class="l" for="qAddress">Street address</label><input type="text" id="qAddress" autocomplete="street-address"></div>
+            <div class="two">
+              <div class="field"><label class="l" for="qCity">City</label>
+                <select id="qCity"><option value="">Choose…</option><option>Montgomery</option><option>Pike Road</option><option>Prattville</option><option>Millbrook</option><option>Wetumpka</option><option>Auburn / Opelika</option><option>Other</option></select></div>
+              <div class="field"><label class="l" for="qWhen">How soon?</label>
+                <select id="qWhen"><option value="">Choose…</option><option>This week</option><option>Next week or two</option><option>This month</option><option>Just pricing it out</option></select></div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>3. How do we reach you?</legend>
+            <div class="two">
+              <div class="field"><label class="l" for="qName">Name</label><input type="text" id="qName" autocomplete="name"></div>
+              <div class="field"><label class="l" for="qPhone">Mobile phone</label><input type="tel" id="qPhone" autocomplete="tel"></div>
+            </div>
+            <div class="two">
+              <div class="field"><label class="l" for="qEmail">Email <span style="font-weight:400;color:var(--muted)">(optional)</span></label><input type="email" id="qEmail" autocomplete="email"></div>
+              <div class="field"><label class="l" for="qContact">Send my quote by</label>
+                <select id="qContact"><option>Text</option><option>Phone call</option><option>Email</option></select></div>
+            </div>
+          </fieldset>
+
+          <div class="err" id="qErr" role="alert"></div>
+          <button class="btn btn-orange" id="qSubmit" type="submit" style="width:100%">Send for a free quote</button>
+          <p class="fine" style="text-align:center">We'll send your price within a day, usually sooner. No obligation.</p>
+        </form>
+
         <div id="done" role="status">
-          <h3>YOU'RE ON THE LIST!</h3>
+          <h3 id="doneTitle">YOU'RE ON THE LIST!</h3>
           <p id="doneMsg"></p>
-          <p>Have photos? <a id="textLink2" href="#">Text them to us</a> so we can double-check the load size.</p>
+          <p id="donePhotos">Have photos? <a id="textLink2" href="#">Text them to us</a> so we can double-check the load size.</p>
         </div>
       </div>
 
-      <aside class="summary" aria-live="polite">
+      <aside class="summary" id="summary" aria-live="polite">
         <h3>YOUR ESTIMATE</h3>
         <div id="sumRows"></div>
         <div class="total"><span>Estimated total</span><b id="sumTotal">$0</b></div>
@@ -321,34 +380,16 @@ footer a{color:var(--white)}
   </div>
 </footer>
 
+<script src="config.js"></script>
 <script>
-// ---- Settings: change these, nothing else ----
-const PHONE = "(334) 555-0123";          // PLACEHOLDER: put the real business line here
-const BOOKING_ENDPOINT = "";             // Google Apps Script Web App URL (see SETUP.md). Empty = preview mode.
-
-const LOADS = [
-  {id:"single", name:"Single item",  fill:.06, price:89,  sub:"One couch, fridge, or mattress set"},
-  {id:"eighth", name:"1/8 trailer",  fill:.125,price:119, sub:"A few big items"},
-  {id:"quarter",name:"1/4 trailer",  fill:.25, price:179, sub:"Small room or garage corner"},
-  {id:"half",   name:"1/2 trailer",  fill:.5,  price:299, sub:"Garage or basement cleanout"},
-  {id:"three",  name:"3/4 trailer",  fill:.75, price:419, sub:"Several rooms"},
-  {id:"full",   name:"Full trailer", fill:1,   price:549, sub:"Whole-house or estate cleanout"},
-];
-const ADDONS = [
-  {id:"mattress", name:"Mattress / box spring", price:25},
-  {id:"tire",     name:"Tire",                  price:10},
-  {id:"freon",    name:"Fridge, freezer or AC unit", price:40},
-];
-const STAIRS = 25, AUBURN_TRAVEL = 50;
-// ----------------------------------------------
-
+// Prices, phone and BOOKING_ENDPOINT live in config.js.
 const $ = id => document.getElementById(id);
 const money = n => "$" + n.toLocaleString();
 const digits = PHONE.replace(/\D/g, "");
 
 // phone links
 const sms = "sms:+1" + digits;
-["textLink","textLink2"].forEach(i => $(i).href = sms);
+$("textLink2").href = sms;
 $("phoneLink").href = "tel:+1" + digits; $("phoneLink").textContent = PHONE;
 $("stairsFee").textContent = money(STAIRS);
 if (!BOOKING_ENDPOINT) $("previewNote").hidden = false;
@@ -412,24 +453,100 @@ $("bookForm").addEventListener("submit", e => {
     items: $("items").value.trim(), source: $("source").value,
   };
 
-  const showDone = () => {
-    $("bookForm").style.display = "none";
-    $("doneMsg").textContent = `Thanks, ${payload.name.split(" ")[0]}! We've got you down for the ${payload.window} window on ${new Date(payload.date + "T12:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}. Estimated ${money(q.total)}. We'll text ${payload.phone} to confirm.`;
-    $("done").style.display = "block";
-    $("done").scrollIntoView({behavior:"smooth", block:"center"});
-  };
+  payload.type = "booking";
+  send(payload, () => showDone("YOU'RE ON THE LIST!",
+    `Thanks, ${payload.name.split(" ")[0]}! We've got you down for the ${payload.window} window on ${new Date(payload.date + "T12:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}. Estimated ${money(q.total)}. We'll text ${payload.phone} to confirm.`, true));
+});
 
-  if (!BOOKING_ENDPOINT) { showDone(); return; }   // preview mode until URL is set
+function showDone(title, msg, askPhotos) {
+  $("bookWrap").querySelectorAll("form").forEach(f => f.hidden = true);
+  $("doneTitle").textContent = title;
+  $("doneMsg").textContent = msg;
+  $("donePhotos").hidden = !askPhotos;
+  $("done").style.display = "block";
+  $("done").scrollIntoView({behavior:"smooth", block:"center"});
+}
 
+function send(payload, onDone) {
+  if (!BOOKING_ENDPOINT) { onDone(); return; }   // preview mode until URL is set
   fetch(BOOKING_ENDPOINT, {
     method: "POST",
     headers: {"Content-Type": "text/plain;charset=utf-8"}, // "simple" request: no CORS preflight
     body: JSON.stringify(payload)
-  }).then(showDone).catch(err => {
-    console.error("Booking save failed:", err);
-    console.log("BOOKING (unsaved):", payload);
-    showDone();
+  }).then(onDone).catch(err => {
+    console.error("Save failed:", err);
+    console.log("UNSAVED:", {...payload, photos: (payload.photos || []).length + " photo(s)"});
+    onDone();
   });
+}
+
+// ---- Book vs. quote ----
+function setMode(quote) {
+  $("modeBook").setAttribute("aria-pressed", String(!quote));
+  $("modeQuote").setAttribute("aria-pressed", String(quote));
+  if ($("done").style.display === "block") return;
+  $("bookForm").hidden = quote;
+  $("quoteForm").hidden = !quote;
+  $("summary").hidden = quote;
+  $("bookWrap").classList.toggle("solo", quote);
+}
+$("modeBook").addEventListener("click", () => setMode(false));
+$("modeQuote").addEventListener("click", () => setMode(true));
+document.querySelectorAll("[data-goquote]").forEach(b => b.addEventListener("click", () => setMode(true)));
+function fromHash() {
+  if (location.hash === "#quote") { setMode(true); $("book").scrollIntoView(); }
+}
+window.addEventListener("hashchange", fromHash);
+fromHash();
+
+// ---- Quote photos: shrink on the phone before sending (keeps uploads fast) ----
+const MAX_PHOTOS = 6, MAX_SIDE = 1600;
+let photos = [];
+function shrink(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, MAX_SIDE / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      resolve(c.toDataURL("image/jpeg", 0.8));
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
+}
+$("qPhotos").addEventListener("change", async e => {
+  const files = [...e.target.files].filter(f => f.type.startsWith("image/")).slice(0, MAX_PHOTOS);
+  $("qErr").textContent = e.target.files.length > MAX_PHOTOS ? `Only the first ${MAX_PHOTOS} photos will be sent.` : "";
+  photos = [];
+  for (const f of files) {
+    try { photos.push({name: f.name, data: await shrink(f)}); }
+    catch { $("qErr").textContent = `Couldn't read ${f.name}. Try a different photo.`; }
+  }
+  $("qThumbs").innerHTML = photos.map((p, i) => `<img src="${p.data}" alt="Photo ${i+1}">`).join("");
+});
+
+$("quoteForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const need = [["qName","your name"],["qPhone","a phone number"],["qCity","your city"]];
+  const missing = need.find(([id]) => !$(id).value.trim());
+  if (missing) { $("qErr").textContent = "Please add " + missing[1] + "."; $(missing[0]).focus(); return; }
+  if ($("qPhone").value.replace(/\D/g,"").length < 10) { $("qErr").textContent = "Please enter a 10-digit phone number."; $("qPhone").focus(); return; }
+  if (!photos.length && !$("qItems").value.trim()) { $("qErr").textContent = "Please add a photo or tell us what it is."; $("qItems").focus(); return; }
+  $("qErr").textContent = "";
+  $("qSubmit").disabled = true; $("qSubmit").textContent = "Sending…";
+
+  const payload = {
+    type: "quote",
+    name: $("qName").value.trim(), phone: $("qPhone").value.trim(), email: $("qEmail").value.trim(),
+    contact: $("qContact").value, items: $("qItems").value.trim(), where: $("qWhere").value,
+    address: $("qAddress").value.trim(), city: $("qCity").value, when: $("qWhen").value,
+    photos,
+  };
+  send(payload, () => showDone("GOT IT!",
+    `Thanks, ${payload.name.split(" ")[0]}! We'll look at ${photos.length ? photos.length + " photo" + (photos.length > 1 ? "s" : "") : "your description"} and send your price by ${payload.contact.toLowerCase()}${payload.contact === "Email" && payload.email ? " to " + payload.email : " at " + payload.phone}, usually the same day.`, false));
 });
 </script>
 </body>

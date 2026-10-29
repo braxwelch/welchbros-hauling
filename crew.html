@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Welch Bros — Crew Quote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800&display=swap">
+<style>
+:root{--green:#1F3D2B;--green-dk:#142A1D;--orange:#F26B1D;--bone:#F4F1EA;--line:#D9D4C7;--ink:#1A1A1A;--muted:#4A4A4A;--white:#FFFFFF;--tint:#EEF3EF}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Archivo',system-ui,sans-serif;background:var(--bone);color:var(--ink);line-height:1.4;padding-bottom:180px}
+header{background:var(--green);color:var(--white);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5}
+header b{font-family:'Archivo Black',sans-serif;font-size:18px}
+header span{font-weight:800;font-size:11px;letter-spacing:4px;color:var(--orange);display:block}
+header select{font:inherit;font-weight:600;border-radius:8px;border:0;padding:8px;min-height:40px}
+main{max-width:560px;margin:0 auto;padding:16px}
+.preview{background:#FFF4E5;border:1px solid var(--orange);border-radius:10px;padding:8px 12px;font-size:14px;margin-bottom:12px}
+section{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+h2{font-size:15px;font-weight:800;letter-spacing:2px;color:var(--green);margin:0 0 12px}
+.fills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fill{font:inherit;border:2px solid var(--line);background:var(--white);border-radius:12px;padding:10px 6px;min-height:72px;cursor:pointer;color:var(--ink)}
+.fill b{display:block;font-size:20px;font-family:'Archivo Black',sans-serif}
+.fill small{font-size:14px;color:var(--muted)}
+.fill .bar{display:block;height:6px;border-radius:3px;background:var(--bone);margin:6px 4px;overflow:hidden}
+.fill .bar i{display:block;height:100%;background:var(--orange)}
+.fill[aria-pressed=true]{border-color:var(--green);background:var(--tint);box-shadow:inset 0 0 0 1px var(--green)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--bone)}
+.row:last-child{border-bottom:0}
+.row .lbl small{display:block;color:var(--muted);font-size:13px}
+.step{display:flex;align-items:center;gap:6px}
+.step button{font:inherit;font-size:22px;font-weight:800;width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bone);cursor:pointer;color:var(--ink)}
+.step output{min-width:36px;text-align:center;font-weight:800;font-size:18px}
+.toggle{width:26px;height:26px;accent-color:var(--green)}
+label.tl{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:4px 0}
+input[type=text],input[type=tel],input[type=number],select{font:inherit;font-size:16px;padding:10px 12px;border:1px solid #B9B3A4;border-radius:10px;width:100%;min-height:46px;background:var(--white);color:var(--ink)}
+.f{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.f label{font-weight:600;font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--orange);outline-offset:1px}
+.bar-bottom{position:fixed;left:0;right:0;bottom:0;background:var(--green);color:var(--white);padding:12px 16px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.2)}
+.bb{max-width:560px;margin:0 auto}
+.tot{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tot b{font-family:'Archivo Black',sans-serif;font-size:40px;color:var(--orange);line-height:1}
+.lines{font-size:13px;color:#D9E3DC;margin:2px 0 10px;min-height:18px}
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.acts a,.acts button{font:inherit;font-weight:800;font-size:15px;min-height:48px;border-radius:10px;border:0;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;cursor:pointer;padding:4px 6px}
+.a-text{background:var(--orange);color:var(--ink)}
+.a-yes{background:var(--white);color:var(--green)}
+.a-no{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.6)!important}
+.msg{font-size:14px;color:var(--white);min-height:20px;margin-top:8px;text-align:center}
+.linkbtn{font:inherit;font-weight:700;background:none;border:0;color:var(--green);text-decoration:underline;padding:8px 0;cursor:pointer;min-height:44px}
+</style>
+</head>
+<body>
+<header>
+  <div><b>WELCH BROS</b><span>CREW QUOTE</span></div>
+  <label><span class="sr" style="position:absolute;left:-9999px">Who's quoting</span><select id="crew" aria-label="Who's quoting"></select></label>
+</header>
+
+<main>
+  <div class="preview" id="preview" hidden>Preview mode: quotes aren't logged to the sheet yet. Texting still works.</div>
+
+  <section>
+    <h2>HOW FULL IS THE TRAILER?</h2>
+    <div class="fills" id="fills"></div>
+  </section>
+
+  <section>
+    <h2>EXTRAS</h2>
+    <div id="addons"></div>
+    <div class="row">
+      <div class="lbl">Heavy debris<small>Concrete, dirt, shingles, tile · <span id="heavyRate"></span>/ton</small></div>
+      <div class="step"><button type="button" data-heavy="-0.5" aria-label="Less heavy debris">−</button><output id="heavy">0</output><button type="button" data-heavy="0.5" aria-label="More heavy debris">+</button></div>
+    </div>
+    <label class="tl"><span>Stairs / long carry <small style="color:var(--muted)">+<span id="stairsFee"></span></small></span><input type="checkbox" class="toggle" id="stairs"></label>
+    <label class="tl"><span>Auburn / Opelika travel <small style="color:var(--muted)">+<span id="travelFee"></span></small></span><input type="checkbox" class="toggle" id="travel"></label>
+    <label class="tl"><span>Door-hanger coupon <small style="color:var(--muted)">−$25, ½ trailer or more</small></span><input type="checkbox" class="toggle" id="coupon"></label>
+    <div class="two" style="margin-top:6px">
+      <div class="f"><label for="adj">Adjust ($, + or −)</label><input type="number" id="adj" inputmode="numeric" step="5" value="0"></div>
+      <div class="f"><label for="adjWhy">Why</label><input type="text" id="adjWhy" placeholder="e.g. repeat customer"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>CUSTOMER</h2>
+    <div class="two">
+      <div class="f"><label for="cName">Name</label><input type="text" id="cName" autocomplete="off"></div>
+      <div class="f"><label for="cPhone">Mobile</label><input type="tel" id="cPhone" autocomplete="off"></div>
+    </div>
+    <div class="f"><label for="cAddr">Address</label><input type="text" id="cAddr" autocomplete="off"></div>
+    <div class="f"><label for="cNotes">Notes</label><input type="text" id="cNotes" placeholder="what's in the pile, gate code, etc."></div>
+    <button type="button" class="linkbtn" id="reset">Start a new quote</button>
+    <button type="button" class="linkbtn" id="pinBtn" style="float:right">Crew PIN</button>
+  </section>
+</main>
+
+<div class="bar-bottom">
+  <div class="bb">
+    <div class="tot"><span>Quote</span><b id="total">$0</b></div>
+    <div class="lines" id="lines"></div>
+    <div class="acts">
+      <a class="a-text" id="textBtn" href="#">Text quote</a>
+      <button type="button" class="a-yes" id="yesBtn">They said yes</button>
+      <button type="button" class="a-no" id="noBtn">They passed</button>
+    </div>
+    <div class="msg" id="msg" role="status"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+// Prices, phone, crew names and BOOKING_ENDPOINT live in config.js.
+const $ = id => document.getElementById(id);
+const money = n => (n < 0 ? "−$" : "$") + Math.abs(n).toLocaleString();
+const store = {
+  get: k => { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+};
+
+if (!BOOKING_ENDPOINT) $("preview").hidden = false;
+$("crew").innerHTML = CREW.map(n => `<option>${n}</option>`).join("");
+if (CREW.includes(store.get("wb-crew"))) $("crew").value = store.get("wb-crew");
+$("crew").addEventListener("change", () => store.set("wb-crew", $("crew").value));
+$("heavyRate").textContent = money(HEAVY_PER_TON);
+$("stairsFee").textContent = money(STAIRS);
+$("travelFee").textContent = money(AUBURN_TRAVEL);
+
+let load = "half", heavy = 0;
+const qty = Object.fromEntries(ADDONS.map(a => [a.id, 0]));
+
+$("fills").innerHTML = LOADS.map(l => `
+  <button type="button" class="fill" data-load="${l.id}" aria-pressed="false">
+    <b>${l.short}</b><span class="bar" aria-hidden="true"><i style="width:${l.fill*100}%"></i></span><small>${money(l.price)}</small>
+  </button>`).join("");
+$("addons").innerHTML = ADDONS.map(a => `
+  <div class="row"><div class="lbl">${a.name}<small>+${money(a.price)} each</small></div>
+  <div class="step"><button type="button" data-add="${a.id}" data-d="-1" aria-label="One fewer ${a.name}">−</button><output id="q-${a.id}">0</output><button type="button" data-add="${a.id}" data-d="1" aria-label="One more ${a.name}">+</button></div></div>`).join("");
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.load) load = b.dataset.load;
+  if (b.dataset.add) qty[b.dataset.add] = Math.max(0, qty[b.dataset.add] + Number(b.dataset.d));
+  if (b.dataset.heavy) heavy = Math.max(0, Math.round((heavy + Number(b.dataset.heavy)) * 2) / 2);
+  render();
+});
+document.addEventListener("input", render);
+document.addEventListener("change", render);
+
+function quote() {
+  const l = LOADS.find(x => x.id === load);
+  const rows = [[l.name, l.price]];
+  ADDONS.forEach(a => { if (qty[a.id]) rows.push([`${a.name} ×${qty[a.id]}`, a.price * qty[a.id]]); });
+  if (heavy) rows.push([`Heavy debris ~${heavy} ton`, Math.round(heavy * HEAVY_PER_TON)]);
+  if ($("stairs").checked) rows.push(["Stairs / long carry", STAIRS]);
+  if ($("travel").checked) rows.push(["Auburn / Opelika travel", AUBURN_TRAVEL]);
+  if ($("coupon").checked && l.fill >= .5) rows.push(["Door-hanger coupon", -25]);
+  const adj = Math.round(Number($("adj").value) || 0);
+  if (adj) rows.push([$("adjWhy").value.trim() || "Adjustment", adj]);
+  return {load: l, rows, total: Math.max(0, rows.reduce((s, r) => s + r[1], 0))};
+}
+
+function render() {
+  document.querySelectorAll("[data-load]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.load === load)));
+  ADDONS.forEach(a => $("q-" + a.id).textContent = qty[a.id]);
+  $("heavy").textContent = heavy;
+  const couponOk = LOADS.find(x => x.id === load).fill >= .5;
+  $("coupon").disabled = !couponOk;
+  if (!couponOk) $("coupon").checked = false;
+
+  const q = quote();
+  $("total").textContent = money(q.total);
+  $("lines").textContent = q.rows.map(([n, p]) => `${n} ${money(p)}`).join(" · ");
+
+  const first = $("cName").value.trim().split(" ")[0];
+  const extras = q.rows.slice(1).filter(r => r[1] > 0).map(r => r[0].toLowerCase());
+  const body = `Hi${first ? " " + first : ""}, it's ${$("crew").value} with Welch Bros Hauling. ` +
+    `Your price for a ${q.load.name.toLowerCase()}${extras.length ? " plus " + extras.join(", ") : ""} is ${money(q.total)}, ` +
+    `including loading, hauling, disposal and cleanup. Reply YES and we'll get you on the schedule. ${PHONE}`;
+  const to = $("cPhone").value.replace(/\D/g, "");
+  $("textBtn").href = `sms:${to ? "+1" + to.slice(-10) : ""}?&body=${encodeURIComponent(body)}`;
+}
+
+function log(status) {
+  const q = quote();
+  const payload = {
+    type: "crew_quote", status, pin: store.get("wb-pin"), crew: $("crew").value,
+    name: $("cName").value.trim(), phone: $("cPhone").value.trim(), address: $("cAddr").value.trim(),
+    notes: $("cNotes").value.trim(), load: q.load.name,
+    extras: q.rows.slice(1).map(([n, p]) => `${n} ${money(p)}`).join("; "), total: q.total,
+  };
+  const done = () => { $("msg").textContent = `Logged as ${status}: ${payload.name || "customer"} ${money(q.total)}.`; };
+  if (!BOOKING_ENDPOINT) { $("msg").textContent = `Preview: would log ${status} · ${money(q.total)}`; return; }
+  if (!payload.pin) { $("msg").textContent = "Set the crew PIN first (bottom of the Customer box)."; return; }
+  $("msg").textContent = "Saving…";
+  fetch(BOOKING_ENDPOINT, {method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"}, body: JSON.stringify(payload)})
+    .then(r => r.json()).then(r => { r.result === "success" ? done() : ($("msg").textContent = "Not saved: " + (r.error || "check the PIN")); })
+    .catch(() => { $("msg").textContent = "No signal? Not saved. Try again in a minute."; });
+}
+$("yesBtn").addEventListener("click", () => log("Won"));
+$("noBtn").addEventListener("click", () => log("Lost"));
+$("textBtn").addEventListener("click", () => { if (BOOKING_ENDPOINT) log("Quoted"); });
+
+$("pinBtn").addEventListener("click", () => {
+  const p = prompt("Crew PIN (from the sheet's Apps Script):", store.get("wb-pin"));
+  if (p !== null) { store.set("wb-pin", p.trim()); $("msg").textContent = p.trim() ? "PIN saved on this phone." : "PIN cleared."; }
+});
+$("reset").addEventListener("click", () => {
+  load = "half"; heavy = 0; ADDONS.forEach(a => qty[a.id] = 0);
+  ["cName","cPhone","cAddr","cNotes","adjWhy"].forEach(id => $(id).value = "");
+  $("adj").value = 0; ["stairs","travel","coupon"].forEach(id => $(id).checked = false);
+  $("msg").textContent = ""; render(); window.scrollTo(0, 0);
+});
+render();
+</script>
+</body>
+</html>
