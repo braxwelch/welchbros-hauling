@@ -10,11 +10,21 @@
   with the price filled in; **They said yes / They passed** logs the result.
   Not linked from the site and hidden from Google, but the URL is public: logging
   needs the crew PIN.
-- `config.js` — **the only place prices, the phone number, crew names and
-  BOOKING_ENDPOINT live.** Both pages read it.
+  Its **Job done? Log it** box records what actually happened after the dump
+  run (collected, dump receipt, scrap $, people × hours, gas, payment, lead
+  source) so the dashboard can show real profit.
+- `owner.html` — the owner/operator dashboard. **Today:** jobs in the next 7
+  days, quote requests waiting for a price, quotes to follow up on.
+  **Business** (last 7 days / this month / season): revenue, profit, margin,
+  average job, close rate, crew pay, weekly revenue-vs-profit chart (with a
+  table view), close rate by crew, revenue by lead source, actual vs.
+  estimated dump cost by load size, unpaid invoices. Needs the `OWNER_PIN`.
+  In preview mode it shows **sample data** so you can see how it works.
+- `config.js` — **the only place prices, the phone number, crew names, job-cost
+  assumptions and BOOKING_ENDPOINT live.** All three pages read it.
 - `Code.gs` — Google Apps Script that writes everything into one Google Sheet:
   `Bookings`, `Quote Requests` (with links to photos saved in a Drive folder),
-  and `Crew Quotes`.
+  `Crew Quotes`, and `Jobs` — and feeds the dashboard.
 
 ## Preview mode (current)
 `BOOKING_ENDPOINT` is empty, so both forms show their confirmation but save
@@ -30,6 +40,8 @@ nothing, and the crew tool doesn't log. Texting from the crew tool still works.
 1. Create a Google Sheet (e.g. "Welch Bros Jobs") in the business Google account.
 2. **Extensions → Apps Script**, delete the default code, paste `Code.gs`.
    - Set `CREW_PIN` (any number the crew will remember).
+   - Set `OWNER_PIN` (a different, longer one only you know — it unlocks all
+     customer names, phones and money on `owner.html`).
    - Set `ALERT_EMAIL` to get an email for every booking and quote request.
    - **Save.**
 3. **Deploy → New deployment** → type **Web app** → Execute as **Me**,
@@ -40,6 +52,8 @@ nothing, and the crew tool doesn't log. Texting from the crew tool still works.
    `{"status":"ok",...}`.
 5. On each crew phone: open `…/crew.html`, tap **Crew PIN**, enter the PIN,
    then **Add to Home Screen** so it opens like an app.
+6. On your phone: open `…/owner.html`, enter the owner PIN, Add to Home Screen.
+   **Lock** forgets the PIN on that device.
 
 After any change to `Code.gs`: **Deploy → Manage deployments → edit → New
 version**, or the live URL keeps running the old code.

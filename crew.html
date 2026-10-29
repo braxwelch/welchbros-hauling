@@ -95,6 +95,29 @@ input:focus,select:focus,button:focus-visible{outline:3px solid var(--orange);ou
     <button type="button" class="linkbtn" id="reset">Start a new quote</button>
     <button type="button" class="linkbtn" id="pinBtn" style="float:right">Crew PIN</button>
   </section>
+
+  <section id="jobDone">
+    <h2>JOB DONE? LOG IT</h2>
+    <p style="margin:0 0 12px;font-size:14px;color:var(--muted)">After the dump run. Takes 30 seconds and feeds the owner dashboard.</p>
+    <div class="two">
+      <div class="f"><label for="jPrice">Collected ($)</label><input type="number" id="jPrice" inputmode="decimal" step="1"></div>
+      <div class="f"><label for="jPay">Paid by</label><select id="jPay"><option>Card</option><option>Cash</option><option>Venmo / Cash App</option><option>Check</option><option>Invoice (unpaid)</option></select></div>
+    </div>
+    <div class="two">
+      <div class="f"><label for="jDump">Dump receipt ($)</label><input type="number" id="jDump" inputmode="decimal" step="0.01" placeholder="0 if donated/scrapped"></div>
+      <div class="f"><label for="jScrap">Scrap $ received</label><input type="number" id="jScrap" inputmode="decimal" step="1" value="0"></div>
+    </div>
+    <div class="two">
+      <div class="f"><label for="jPeople">People on job</label><input type="number" id="jPeople" inputmode="numeric" min="1" step="1" value="2"></div>
+      <div class="f"><label for="jHours">Hours (incl. dump run)</label><input type="number" id="jHours" inputmode="decimal" min="0" step="0.25" value="2"></div>
+    </div>
+    <div class="two">
+      <div class="f"><label for="jGas">Gas + wear ($)</label><input type="number" id="jGas" inputmode="decimal" step="1"></div>
+      <div class="f"><label for="jSource">How'd they find us?</label><select id="jSource"></select></div>
+    </div>
+    <div class="lines" id="jProfit" style="color:var(--muted);font-size:15px;margin:4px 0 10px"></div>
+    <button type="button" class="a-text" id="jSave" style="width:100%;min-height:48px;border:0;border-radius:10px;font:inherit;font-weight:800;cursor:pointer">Save finished job</button>
+  </section>
 </main>
 
 <div class="bar-bottom">
@@ -200,6 +223,47 @@ function log(status) {
     .then(r => r.json()).then(r => { r.result === "success" ? done() : ($("msg").textContent = "Not saved: " + (r.error || "check the PIN")); })
     .catch(() => { $("msg").textContent = "No signal? Not saved. Try again in a minute."; });
 }
+// ---- Job done ----
+$("jGas").value = TRIP_COST;
+$("jSource").innerHTML = '<option value="">Choose…</option>' + SOURCES.map(s => `<option>${s}</option>`).join("");
+let priceTouched = false;
+$("jPrice").addEventListener("input", () => priceTouched = true);
+const num = id => Number($(id).value) || 0;
+function jobNumbers() {
+  const price = num("jPrice"), labor = num("jPeople") * num("jHours") * CREW_PAY;
+  const card = $("jPay").value === "Card" ? Math.round(price * CARD_FEE * 100) / 100 : 0;
+  const profit = price + num("jScrap") - num("jDump") - labor - num("jGas") - card;
+  return {price, labor, card, profit};
+}
+function renderJob() {
+  if (!priceTouched) $("jPrice").value = quote().total;
+  const j = jobNumbers();
+  $("jProfit").textContent = `Crew pay ${money(Math.round(j.labor))} · card fee ${money(Math.round(j.card))} · job profit ${money(Math.round(j.profit))}`;
+}
+document.addEventListener("input", renderJob);
+document.addEventListener("change", renderJob);
+document.addEventListener("click", () => setTimeout(renderJob));
+renderJob();
+
+$("jSave").addEventListener("click", () => {
+  if (!num("jPrice")) { $("msg").textContent = "Enter what was collected."; $("jPrice").focus(); return; }
+  const q = quote(), j = jobNumbers();
+  const payload = {
+    type: "job_done", pin: store.get("wb-pin"), crew: $("crew").value,
+    name: $("cName").value.trim(), phone: $("cPhone").value.trim(), address: $("cAddr").value.trim(),
+    load: q.load.name, price: j.price, payment: $("jPay").value, dump: num("jDump"), scrap: num("jScrap"),
+    people: num("jPeople"), hours: num("jHours"), labor: Math.round(j.labor * 100) / 100,
+    gas: num("jGas"), cardFee: j.card, profit: Math.round(j.profit * 100) / 100,
+    source: $("jSource").value, notes: $("cNotes").value.trim(),
+  };
+  if (!BOOKING_ENDPOINT) { $("msg").textContent = `Preview: would log job · ${money(j.price)} collected, ${money(Math.round(j.profit))} profit`; return; }
+  if (!payload.pin) { $("msg").textContent = "Set the crew PIN first (bottom of the Customer box)."; return; }
+  $("msg").textContent = "Saving…";
+  fetch(BOOKING_ENDPOINT, {method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"}, body: JSON.stringify(payload)})
+    .then(r => r.json()).then(r => { $("msg").textContent = r.result === "success" ? `Job saved: ${money(j.price)}, ${money(Math.round(j.profit))} profit.` : "Not saved: " + (r.error || "check the PIN"); })
+    .catch(() => { $("msg").textContent = "No signal? Not saved. Try again in a minute."; });
+});
+
 $("yesBtn").addEventListener("click", () => log("Won"));
 $("noBtn").addEventListener("click", () => log("Lost"));
 $("textBtn").addEventListener("click", () => { if (BOOKING_ENDPOINT) log("Quoted"); });
@@ -212,6 +276,8 @@ $("reset").addEventListener("click", () => {
   load = "half"; heavy = 0; ADDONS.forEach(a => qty[a.id] = 0);
   ["cName","cPhone","cAddr","cNotes","adjWhy"].forEach(id => $(id).value = "");
   $("adj").value = 0; ["stairs","travel","coupon"].forEach(id => $(id).checked = false);
+  priceTouched = false; ["jDump","jSource"].forEach(id => $(id).value = "");
+  $("jScrap").value = 0; $("jPeople").value = 2; $("jHours").value = 2; $("jGas").value = TRIP_COST;
   $("msg").textContent = ""; render(); window.scrollTo(0, 0);
 });
 render();

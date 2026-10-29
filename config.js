@@ -28,3 +28,14 @@ const HEAVY_PER_TON = 120;
 
 // Crew tool: names in the "Who's quoting" list.
 const CREW = ["Braxton", "Brother 2", "Brother 3"];   // PLACEHOLDER: real names
+
+// Job costs, used by the crew tool's "Job done" step and the owner dashboard.
+// Same assumptions as the Inputs tab of the pricing spreadsheet.
+const CREW_PAY = 18;          // $ per hour per person
+const TRIP_COST = 14;         // $ gas + wear per job (30 mi round trip)
+const CARD_FEE = 0.03;        // card processing, share of price
+const TRAILER_YD = 10.9;      // trailer capacity, cubic yards (MEASURE IT)
+const LBS_PER_YD = 300;       // mixed household junk
+const DUMP_PER_TON = 45;      // PLACEHOLDER until the dumps are called
+const SOURCES = ["Door hanger", "Saw the truck", "Google", "Facebook / Nextdoor",
+                 "Friend or neighbor", "Realtor / property manager", "Repeat customer", "Other"];

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Welch Bros — Owner Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800&display=swap">
+<style>
+:root{
+  --green:#1F3D2B;--orange:#F26B1D;--bone:#F4F1EA;--line:#E2DDD1;--ink:#1A1A1A;--muted:#5A5A5A;--white:#FFFFFF;--tint:#EEF3EF;
+  /* chart series (validated: profit/costs pass CVD + normal-vision; costs needs labels/table → table view provided) */
+  --s-profit:#2D7A50;--s-costs:#E8954A;--grid:#ECE8DF;
+  --warn:#8A5A00;--warn-bg:#FFF4E0;--bad:#B3261E;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Archivo',system-ui,sans-serif;background:var(--bone);color:var(--ink);line-height:1.4}
+header{background:var(--green);color:var(--white)}
+.hd{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.hd b{font-family:'Archivo Black',sans-serif;font-size:20px}
+.hd small{display:block;font-weight:800;font-size:11px;letter-spacing:4px;color:var(--orange)}
+.hd .right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{background:var(--orange);color:var(--ink);font-weight:800;font-size:13px;border-radius:999px;padding:4px 10px}
+.hbtn{font:inherit;font-weight:700;background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.5);border-radius:8px;min-height:40px;padding:0 12px;cursor:pointer}
+main{max-width:1180px;margin:0 auto;padding:16px}
+h2{font-size:13px;font-weight:800;letter-spacing:3px;color:var(--green);margin:28px 0 12px}
+h2:first-child{margin-top:4px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.tile .k{font-size:13px;color:var(--muted);font-weight:600}
+.tile .v{font-family:'Archivo Black',sans-serif;font-size:30px;line-height:1.1;margin-top:4px}
+.tile .s{font-size:13px;color:var(--muted);margin-top:2px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:14px}
+.grid2>*{min-width:0}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
+.seg{display:inline-flex;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{font:inherit;font-weight:700;border:0;background:transparent;border-radius:8px;min-height:40px;padding:0 14px;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--green);color:var(--white)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.list{display:flex;flex-direction:column}
+.item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .t{font-weight:800}
+.item .d{font-size:14px;color:var(--muted)}
+.item .r{text-align:right;white-space:nowrap}
+.item a{color:var(--green);font-weight:700}
+.empty{color:var(--muted);font-size:14px;padding:6px 0}
+.age{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:2px 8px;background:var(--tint);color:var(--green)}
+.age.late{background:var(--warn-bg);color:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.5px;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.chart-head .title{font-weight:800}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.linkbtn{font:inherit;font-size:13px;font-weight:700;background:none;border:0;color:var(--green);text-decoration:underline;cursor:pointer;min-height:32px;padding:0}
+svg text{font-family:'Archivo',sans-serif}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--white);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.35;display:none;z-index:20;min-width:150px}
+.tip .row{display:flex;justify-content:space-between;gap:12px}
+.tip .row b{font-size:14px}
+.tip .key{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:6px;vertical-align:3px}
+.bar-h{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:14px}
+.bar-h .lbl{width:150px;flex-shrink:0;color:var(--ink)}
+.bar-h .track{flex:1;height:14px;position:relative}
+.bar-h .fill{position:absolute;left:0;top:0;bottom:0;background:var(--s-profit);border-radius:0 4px 4px 0;min-width:2px}
+.bar-h .val{width:110px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+@media (max-width:520px){.bar-h .lbl{width:100px}.bar-h .val{width:84px}}
+.note{font-size:13px;color:var(--muted);margin-top:8px}
+.flag{color:var(--bad);font-weight:800}
+.pinbox{max-width:360px;margin:60px auto;text-align:center}
+.pinbox input{font:inherit;font-size:18px;padding:10px;border:1px solid #B9B3A4;border-radius:10px;width:100%;min-height:48px;margin:10px 0}
+.pinbox button{font:inherit;font-weight:800;background:var(--orange);border:0;border-radius:10px;min-height:48px;width:100%;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd">
+    <div><b>WELCH BROS</b><small>OWNER DASHBOARD</small></div>
+    <div class="right">
+      <span class="badge" id="sampleBadge" hidden>SAMPLE DATA</span>
+      <span id="asOf" style="font-size:13px;color:#D9E3DC"></span>
+      <button type="button" class="hbtn" id="refresh">Refresh</button>
+      <button type="button" class="hbtn" id="lock">Lock</button>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+  <section id="pinView" class="pinbox" hidden>
+    <h2 style="margin:0">OWNER PIN</h2>
+    <form id="pinForm"><label for="pinIn" style="position:absolute;left:-9999px">Owner PIN</label>
+      <input type="password" id="pinIn" inputmode="numeric" autocomplete="current-password">
+      <button type="submit">Open dashboard</button></form>
+    <p class="note" id="pinErr" role="alert"></p>
+  </section>
+
+  <div id="dash" hidden>
+    <h2>TODAY · WHAT NEEDS DOING</h2>
+    <div class="tiles" id="opTiles"></div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><div class="chart-head"><span class="title">Upcoming jobs · next 7 days</span></div><div class="list" id="upcoming"></div></div>
+      <div class="card"><div class="chart-head"><span class="title">Quote requests waiting for a price</span></div><div class="list" id="waiting"></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="chart-head"><span class="title">Follow up · quoted, no answer yet</span></div><div class="list" id="followups"></div></div>
+
+    <h2>BUSINESS · HOW WE'RE DOING</h2>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Time range">
+        <button type="button" data-range="week" aria-pressed="false">Last 7 days</button>
+        <button type="button" data-range="month" aria-pressed="false">This month</button>
+        <button type="button" data-range="season" aria-pressed="true">Season</button>
+      </div>
+    </div>
+    <div class="tiles" id="kpis"></div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="chart-head">
+        <div><div class="title">Revenue by week · what we kept vs. what it cost</div>
+          <div class="legend" aria-hidden="true"><span><i style="background:var(--s-profit)"></i>Profit</span><span><i style="background:var(--s-costs)"></i>Costs (dump, crew pay, gas, card fees)</span></div></div>
+        <button type="button" class="linkbtn" id="tblToggle" aria-expanded="false">Show as table</button>
+      </div>
+      <div id="weekly"></div>
+      <div class="tablewrap" id="weeklyTable" hidden></div>
+    </div>
+
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><div class="chart-head"><span class="title">Quote close rate by crew</span></div><div class="tablewrap" id="crewTbl"></div>
+        <p class="note">Won ÷ (won + passed). Quotes still waiting on an answer aren't counted yet.</p></div>
+      <div class="card"><div class="chart-head"><span class="title">Where customers come from · revenue</span></div><div id="sources"></div></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="chart-head"><span class="title">Are the prices right? Actuals by load size</span></div>
+      <div class="tablewrap" id="loadTbl"></div>
+      <p class="note">Dump estimate uses config.js (trailer size × weight × $/ton). <span class="flag">Red</span> = actual dump cost 25%+ over estimate — time to update the dump rate or prices.</p>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="chart-head"><span class="title">Money not collected yet</span></div>
+      <div class="list" id="unpaid"></div>
+    </div>
+  </div>
+</main>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script src="config.js"></script>
+<script>
+// Data comes from the Google Sheet via Code.gs (POST {type:'dashboard', pin}).
+// With no BOOKING_ENDPOINT in config.js it shows generated SAMPLE data.
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = n => (n < 0 ? "−$" : "$") + Math.round(Math.abs(n)).toLocaleString();
+const pct = n => isFinite(n) ? Math.round(n * 100) + "%" : "—";
+const DAY = 864e5;
+const day = s => { const d = new Date(String(s).slice(0, 10) + "T12:00"); return isNaN(d) ? new Date(s) : d; };
+const fmtDay = d => d.toLocaleDateString(undefined, {weekday: "short", month: "short", day: "numeric"});
+const store = {
+  get: k => { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
+  set: (k, v) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
+};
+
+let DATA = null, NOW = new Date(), RANGE = "season";
+
+// ---------- Sample data (preview mode) ----------
+function sample() {
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const pick = (arr, w) => { if (!w) return arr[Math.floor(rnd() * arr.length)];
+    let r = rnd() * w.reduce((a, b) => a + b, 0); for (let i = 0; i < arr.length; i++) { if ((r -= w[i]) < 0) return arr[i]; } return arr.at(-1); };
+  const first = ["Dana","Marcus","Leah","Chris","Tasha","Ron","Kelly","Andre","Megan","Will","Brenda","Jamal","Sara","Tony","Grace","Luis"];
+  const last = ["Smith","Johnson","Carter","Williams","Davis","Moore","Reed","Hall","Price","Bell","Ward","Hayes"];
+  const cities = ["Montgomery","Montgomery","Montgomery","Pike Road","Prattville","Millbrook","Wetumpka"];
+  const nm = () => pick(first) + " " + pick(last);
+  const ph = () => "(334) 555-" + String(1000 + Math.floor(rnd() * 8999));
+  const now = new Date("2027-07-14T15:00"), start = new Date("2027-05-17T08:00");
+  const loadW = [18, 18, 22, 22, 11, 9];
+  const srcW = [26, 10, 22, 14, 12, 10, 4, 2];
+  const jobs = [], crewQuotes = [], quotes = [], bookings = [];
+  for (let t = +start; t < +now - DAY / 2; t += DAY) {
+    const d = new Date(t), dow = d.getDay(); if (dow === 0) continue;
+    const wk = Math.floor((t - start) / (7 * DAY));
+    const n = Math.max(0, Math.round((0.5 + wk * 0.14 + (dow === 6 ? 1 : 0)) * (0.6 + rnd() * 0.8)));
+    for (let i = 0; i < n; i++) {
+      const L = pick(LOADS, loadW), crew = pick(CREW, [5, 3, 3]);
+      const extras = rnd() < .3 ? ADDONS[0].price * (1 + Math.floor(rnd() * 2)) : 0;
+      const price = L.price + extras + (rnd() < .15 ? STAIRS : 0) - (rnd() < .12 && L.fill >= .5 ? 25 : 0);
+      const tons = L.fill * TRAILER_YD * LBS_PER_YD / 2000;
+      const dump = L.id === "single" && rnd() < .5 ? 0 : Math.round(Math.max(10, tons * DUMP_PER_TON * (0.75 + rnd() * 0.75)) * 100) / 100;
+      const hours = Math.round((0.75 + L.fill * 2.6 + rnd() * 0.8) * 4) / 4, people = L.fill >= .75 && rnd() < .4 ? 3 : 2;
+      const gas = Math.round(12 + rnd() * 14), payment = pick(["Card","Cash","Venmo / Cash App","Check"], [6, 2, 3, 1]);
+      const scrap = rnd() < .18 ? Math.round(8 + rnd() * 30) : 0;
+      const labor = people * hours * CREW_PAY, card = payment === "Card" ? price * CARD_FEE : 0;
+      const when = new Date(t + (9 + rnd() * 8) * 3600e3), name = nm(), phone = ph(), source = pick(SOURCES, srcW);
+      jobs.push({"Logged At": when.toISOString(), Crew: crew, Name: name, Phone: phone, Address: "", Load: L.name,
+        Price: price, Payment: payment, Dump: dump, Scrap: scrap, People: people, Hours: hours, Labor: labor,
+        Gas: gas, "Card Fee": card, Profit: price + scrap - dump - labor - gas - card, Source: source, Notes: ""});
+      crewQuotes.push({"Logged At": when.toISOString(), Status: "Won", Crew: crew, Name: name, Phone: phone, Load: L.name, Total: price});
+      if (rnd() < .45) crewQuotes.push({"Logged At": new Date(t + 11 * 3600e3).toISOString(), Status: "Lost", Crew: pick(CREW, [4, 3, 4]),
+        Name: nm(), Phone: ph(), Load: pick(LOADS, loadW).name, Total: pick(LOADS, loadW).price});
+    }
+  }
+  jobs.at(-2).Payment = "Invoice (unpaid)"; jobs.at(-9).Payment = "Invoice (unpaid)";
+  crewQuotes.push({"Logged At": new Date(+now - 2.2 * DAY).toISOString(), Status: "Quoted", Crew: CREW[1], Name: nm(), Phone: ph(), Load: "1/2 trailer", Total: 299});
+  crewQuotes.push({"Logged At": new Date(+now - 1.1 * DAY).toISOString(), Status: "Quoted", Crew: CREW[0], Name: nm(), Phone: ph(), Load: "3/4 trailer", Total: 444});
+  [[2, "Old hot tub on back deck, about 7 ft", 3, "Backyard / shed"], [9, "Garage full after estate sale — furniture, boxes, a fridge", 5, "Garage or carport"],
+   [27, "Concrete from torn-out patio, maybe 1 ton", 2, "Backyard / shed"]].forEach(([h, items, nPh, where]) =>
+    quotes.push({"Logged At": new Date(+now - h * 3600e3).toISOString(), Status: "New", Name: nm(), Phone: ph(), "Send Quote By": "Text",
+      Items: items, Where: where, City: pick(cities), "How Soon": "This week", Photos: Array(nPh).fill("photo").join("\n")}));
+  quotes.push({"Logged At": new Date(+now - 3.5 * DAY).toISOString(), Status: "Quoted", Name: nm(), Phone: ph(), Items: "Shed teardown + haul", City: "Pike Road", "Quoted $": 650, "Quoted By": CREW[0]});
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(+now + Math.floor(rnd() * 7) * DAY), L = pick(LOADS, loadW);
+    bookings.push({"Logged At": new Date(+now - 2 * DAY).toISOString(), Status: "New", Name: nm(), Phone: ph(), Load: L.name, Estimate: L.price,
+      Date: d.toISOString().slice(0, 10), Window: pick(["Morning (8–11 AM)", "Midday (11 AM–2 PM)", "Afternoon (2–5 PM)"]), City: pick(cities),
+      Items: pick(["Couch + recliner", "Garage cleanout", "Old washer and dryer", "Attic boxes and a desk", "Yard debris after storm"]), "Heard From": pick(SOURCES, srcW)});
+  }
+  return {result: "success", sample: true, now: now.toISOString(), asOf: now.toISOString(), jobs, crewQuotes, quotes, bookings};
+}
+
+// ---------- Load ----------
+async function load() {
+  if (!BOOKING_ENDPOINT) { DATA = sample(); NOW = new Date(DATA.now); return show(); }
+  const pin = store.get("wb-owner-pin");
+  if (!pin) return askPin();
+  document.body.style.opacity = .6;
+  try {
+    const r = await fetch(BOOKING_ENDPOINT, {method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"},
+      body: JSON.stringify({type: "dashboard", pin})}).then(r => r.json());
+    if (r.result !== "success") { store.set("wb-owner-pin", ""); return askPin("Wrong PIN."); }
+    DATA = r; NOW = new Date(); show();
+  } catch { $("asOf").textContent = "Couldn't reach the sheet. Showing last load."; if (DATA) show(); }
+  finally { document.body.style.opacity = 1; }
+}
+function askPin(err) { $("dash").hidden = true; $("pinView").hidden = false; $("pinErr").textContent = err || ""; $("pinIn").focus(); }
+$("pinForm").addEventListener("submit", e => { e.preventDefault(); store.set("wb-owner-pin", $("pinIn").value.trim()); $("pinView").hidden = true; load(); });
+$("refresh").addEventListener("click", load);
+$("lock").addEventListener("click", () => { store.set("wb-owner-pin", ""); BOOKING_ENDPOINT ? askPin() : null; });
+document.querySelectorAll("[data-range]").forEach(b => b.addEventListener("click", () => {
+  RANGE = b.dataset.range;
+  document.querySelectorAll("[data-range]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  renderBusiness();
+}));
+
+function show() {
+  $("pinView").hidden = true; $("dash").hidden = false;
+  $("sampleBadge").hidden = !DATA.sample;
+  $("asOf").textContent = "Updated " + new Date(DATA.asOf).toLocaleString(undefined, {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"});
+  renderToday(); renderBusiness();
+}
+
+// ---------- Today ----------
+function ago(iso) {
+  const h = (NOW - new Date(iso)) / 3600e3;
+  return h < 1 ? "just now" : h < 24 ? Math.round(h) + "h ago" : Math.round(h / 24) + "d ago";
+}
+const telLink = p => `<a href="tel:${esc(String(p).replace(/[^\d+]/g, ""))}">${esc(p)}</a>`;
+
+function renderToday() {
+  const today = new Date(NOW); today.setHours(0, 0, 0, 0);
+  const upcoming = (DATA.bookings || []).filter(b => { const d = day(b.Date); return d >= today && d < +today + 7 * DAY && b.Status !== "Cancelled"; })
+    .sort((a, b) => day(a.Date) - day(b.Date));
+  const waiting = (DATA.quotes || []).filter(q => q.Status === "New").sort((a, b) => new Date(a["Logged At"]) - new Date(b["Logged At"]));
+  const follow = [
+    ...(DATA.crewQuotes || []).filter(q => q.Status === "Quoted" && NOW - new Date(q["Logged At"]) > DAY)
+      .map(q => ({when: q["Logged At"], name: q.Name, phone: q.Phone, what: `${q.Load} · ${money(q.Total)}`, by: q.Crew})),
+    ...(DATA.quotes || []).filter(q => q.Status === "Quoted" && NOW - new Date(q["Logged At"]) > 2 * DAY)
+      .map(q => ({when: q["Logged At"], name: q.Name, phone: q.Phone, what: `${q.Items} · ${money(q["Quoted $"] || 0)}`, by: q["Quoted By"]})),
+  ];
+  const todayCount = upcoming.filter(b => +day(b.Date) - today < DAY).length;
+  $("opTiles").innerHTML = [
+    ["Jobs today", todayCount, `${upcoming.length} in the next 7 days`],
+    ["Quotes to price", waiting.length, waiting.length ? "oldest " + ago(waiting[0]["Logged At"]) : "all caught up"],
+    ["Follow-ups", follow.length, "quoted, no answer yet"],
+    ["Booked value, 7 days", money(upcoming.reduce((s, b) => s + (+b.Estimate || 0), 0)), "estimates, before extras"],
+  ].map(([k, v, s]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${esc(s)}</div></div>`).join("");
+
+  $("upcoming").innerHTML = upcoming.length ? upcoming.map(b => `<div class="item"><div>
+      <div class="t">${esc(fmtDay(day(b.Date)))} · ${esc(b.Window)}</div>
+      <div class="d">${esc(b.Name)} · ${esc(b.City)} · ${esc(b.Items || "")}</div></div>
+      <div class="r"><div class="t">${esc(b.Load)}</div><div class="d">${money(+b.Estimate || 0)} · ${telLink(b.Phone)}</div></div></div>`).join("")
+    : `<div class="empty">Nothing booked in the next 7 days.</div>`;
+
+  $("waiting").innerHTML = waiting.length ? waiting.map(q => {
+      const late = NOW - new Date(q["Logged At"]) > 4 * 3600e3, photos = String(q.Photos || "").split("\n").filter(Boolean).length;
+      return `<div class="item"><div><div class="t">${esc(q.Name)} · ${esc(q.City)}</div>
+        <div class="d">${esc(q.Items || "(no description)")} · ${photos} photo${photos === 1 ? "" : "s"} · ${esc(q.Where || "")}</div></div>
+        <div class="r"><span class="age${late ? " late" : ""}">${ago(q["Logged At"])}</span><div class="d">${esc(q["Send Quote By"] || "")} · ${telLink(q.Phone)}</div></div></div>`; }).join("")
+    : `<div class="empty">No quote requests waiting.</div>`;
+
+  $("followups").innerHTML = follow.length ? follow.map(f => `<div class="item"><div><div class="t">${esc(f.name)}</div>
+      <div class="d">${esc(f.what)} · quoted by ${esc(f.by || "—")}</div></div>
+      <div class="r"><span class="age late">${ago(f.when)}</span><div class="d">${telLink(f.phone)}</div></div></div>`).join("")
+    : `<div class="empty">No open quotes to chase.</div>`;
+}
+
+// ---------- Business ----------
+function inRange(iso) {
+  const d = new Date(iso);
+  if (RANGE === "week") return NOW - d < 7 * DAY && d <= NOW;
+  if (RANGE === "month") return d.getMonth() === NOW.getMonth() && d.getFullYear() === NOW.getFullYear();
+  return true;
+}
+const costOf = j => (+j.Dump || 0) + (+j.Labor || 0) + (+j.Gas || 0) + (+j["Card Fee"] || 0) - (+j.Scrap || 0);
+
+function renderBusiness() {
+  const jobs = (DATA.jobs || []).filter(j => inRange(j["Logged At"]));
+  const cq = (DATA.crewQuotes || []).filter(q => inRange(q["Logged At"]));
+  const rev = jobs.reduce((s, j) => s + (+j.Price || 0), 0), profit = jobs.reduce((s, j) => s + (+j.Profit || 0), 0);
+  const won = cq.filter(q => q.Status === "Won").length, lost = cq.filter(q => q.Status === "Lost").length;
+  const crewPay = jobs.reduce((s, j) => s + (+j.Labor || 0), 0);
+  $("kpis").innerHTML = [
+    ["Revenue", money(rev), `${jobs.length} jobs`],
+    ["Profit", money(profit), "after dump, crew pay, gas, fees"],
+    ["Profit margin", pct(profit / rev), "target 45%+"],
+    ["Avg job", money(jobs.length ? rev / jobs.length : 0), money(jobs.length ? profit / jobs.length : 0) + " profit each"],
+    ["Close rate", pct(won / (won + lost)), `${won} won · ${lost} passed`],
+    ["Crew pay", money(crewPay), "paid out hourly"],
+  ].map(([k, v, s]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${esc(s)}</div></div>`).join("");
+  renderWeekly(); renderCrew(cq); renderSources(jobs); renderLoads(jobs); renderUnpaid();
+}
+
+function weekStart(d) { const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+
+function renderWeekly() {
+  // Always the whole season by week; the range filter scopes the tiles and tables.
+  const by = new Map();
+  (DATA.jobs || []).forEach(j => {
+    const k = +weekStart(new Date(j["Logged At"]));
+    const w = by.get(k) || {rev: 0, profit: 0, cost: 0, jobs: 0};
+    w.rev += +j.Price || 0; w.profit += +j.Profit || 0; w.cost += costOf(j); w.jobs++; by.set(k, w);
+  });
+  const weeks = [...by.entries()].sort((a, b) => a[0] - b[0]).map(([k, w]) => ({start: new Date(k), ...w}));
+  if (!weeks.length) { $("weekly").innerHTML = `<div class="empty">No finished jobs logged yet.</div>`; $("weeklyTable").innerHTML = ""; return; }
+
+  const W = 760, H = 260, m = {t: 18, r: 8, b: 30, l: 52};
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const maxV = Math.max(...weeks.map(w => Math.max(w.rev, w.profit + w.cost)));
+  const step = [250, 500, 1000, 2000, 2500, 5000].find(s => maxV / s <= 5) || 10000;
+  const top = Math.ceil(maxV / step) * step, y = v => m.t + ih - (v / top) * ih;
+  const bw = Math.min(44, iw / weeks.length - 6), gap = iw / weeks.length;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Weekly revenue split into profit and costs. Use Show as table for values.">`;
+  for (let v = 0; v <= top; v += step) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)" stroke-width="1"/>` +
+    `<text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${money(v)}</text>`;
+  const best = weeks.reduce((a, b) => b.rev > a.rev ? b : a);
+  weeks.forEach((w, i) => {
+    const x = m.l + i * gap + (gap - bw) / 2, p = Math.max(0, w.profit), c = Math.max(0, w.rev - p);
+    const yp = y(p), yc = y(p + c);
+    s += `<g class="wk" data-i="${i}" tabindex="0" style="cursor:default;outline:none">
+      <rect x="${x - 3}" y="${m.t}" width="${bw + 6}" height="${ih}" fill="transparent"/>
+      <rect x="${x}" y="${yp}" width="${bw}" height="${Math.max(0, m.t + ih - yp)}" fill="var(--s-profit)"/>
+      <path d="M${x},${yp - 2} V${yc + 4} Q${x},${yc} ${x + 4},${yc} H${x + bw - 4} Q${x + bw},${yc} ${x + bw},${yc + 4} V${yp - 2} Z" fill="var(--s-costs)"/>
+      ${i % Math.ceil(weeks.length / 8) === 0 ? `<text x="${x + bw / 2}" y="${H - 10}" text-anchor="middle" font-size="11" fill="var(--muted)">${w.start.toLocaleDateString(undefined, {month: "short", day: "numeric"})}</text>` : ""}
+      ${w === best ? `<text x="${x + bw / 2}" y="${yc - 6}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">${money(w.rev)}</text>` : ""}
+    </g>`;
+  });
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${m.t + ih}" y2="${m.t + ih}" stroke="#BDB6A6"/></svg>`;
+  $("weekly").innerHTML = s;
+
+  const tip = $("tip");
+  const showTip = (g, ev) => {
+    const w = weeks[+g.dataset.i];
+    tip.innerHTML = `<div style="margin-bottom:4px;color:#D9D4C7">Week of ${esc(w.start.toLocaleDateString(undefined, {month: "short", day: "numeric"}))} · ${w.jobs} jobs</div>
+      <div class="row"><span><span class="key" style="background:var(--s-profit)"></span>Profit</span><b>${money(w.profit)}</b></div>
+      <div class="row"><span><span class="key" style="background:var(--s-costs)"></span>Costs</span><b>${money(w.cost)}</b></div>
+      <div class="row" style="border-top:1px solid #444;margin-top:4px;padding-top:4px"><span>Revenue</span><b>${money(w.rev)}</b></div>`;
+    tip.style.display = "block";
+    const r = ev && ev.clientX != null ? {x: ev.clientX, y: ev.clientY} : (() => { const b = g.getBoundingClientRect(); return {x: b.left + b.width / 2, y: b.top + 40}; })();
+    tip.style.left = Math.min(innerWidth - tip.offsetWidth - 8, r.x + 12) + "px"; tip.style.top = Math.max(8, r.y - tip.offsetHeight - 12) + "px";
+    g.querySelectorAll("rect,path").forEach((el, k) => k && (el.style.opacity = .8));
+  };
+  const hideTip = g => { tip.style.display = "none"; g.querySelectorAll("rect,path").forEach(el => el.style.opacity = ""); };
+  document.querySelectorAll(".wk").forEach(g => {
+    g.addEventListener("pointermove", e => showTip(g, e)); g.addEventListener("pointerleave", () => hideTip(g));
+    g.addEventListener("focus", () => showTip(g)); g.addEventListener("blur", () => hideTip(g));
+  });
+
+  $("weeklyTable").innerHTML = `<table><thead><tr><th>Week of</th><th class="n">Jobs</th><th class="n">Revenue</th><th class="n">Costs</th><th class="n">Profit</th><th class="n">Margin</th></tr></thead><tbody>` +
+    weeks.map(w => `<tr><td>${esc(w.start.toLocaleDateString(undefined, {month: "short", day: "numeric"}))}</td><td class="n">${w.jobs}</td><td class="n">${money(w.rev)}</td><td class="n">${money(w.cost)}</td><td class="n">${money(w.profit)}</td><td class="n">${pct(w.profit / w.rev)}</td></tr>`).join("") + `</tbody></table>`;
+}
+$("tblToggle").addEventListener("click", () => {
+  const open = $("weeklyTable").hidden;
+  $("weeklyTable").hidden = !open; $("weekly").hidden = open;
+  $("tblToggle").textContent = open ? "Show as chart" : "Show as table"; $("tblToggle").setAttribute("aria-expanded", String(open));
+});
+
+function renderCrew(cq) {
+  const jobs = (DATA.jobs || []).filter(j => inRange(j["Logged At"]));
+  const names = [...new Set([...CREW, ...cq.map(q => q.Crew), ...jobs.map(j => j.Crew)].filter(Boolean))];
+  const rows = names.map(n => {
+    const mine = cq.filter(q => q.Crew === n), w = mine.filter(q => q.Status === "Won").length, l = mine.filter(q => q.Status === "Lost").length;
+    const mj = jobs.filter(j => j.Crew === n);
+    return {n, w, l, open: mine.filter(q => q.Status === "Quoted").length, rate: w / (w + l), rev: mj.reduce((s, j) => s + (+j.Price || 0), 0)};
+  }).filter(r => r.w + r.l + r.open + r.rev);
+  $("crewTbl").innerHTML = rows.length ? `<table><thead><tr><th>Crew</th><th class="n">Won</th><th class="n">Passed</th><th class="n">Waiting</th><th class="n">Close rate</th><th class="n">Job revenue</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td>${esc(r.n)}</td><td class="n">${r.w}</td><td class="n">${r.l}</td><td class="n">${r.open}</td><td class="n"><b>${pct(r.rate)}</b></td><td class="n">${money(r.rev)}</td></tr>`).join("") + `</tbody></table>`
+    : `<div class="empty">No quotes logged in this range.</div>`;
+}
+
+function renderSources(jobs) {
+  const by = {};
+  jobs.forEach(j => { const k = j.Source || "Not recorded"; by[k] = by[k] || {rev: 0, n: 0}; by[k].rev += +j.Price || 0; by[k].n++; });
+  const rows = Object.entries(by).sort((a, b) => b[1].rev - a[1].rev);
+  const max = rows.length ? rows[0][1].rev : 1;
+  $("sources").innerHTML = rows.length ? rows.map(([k, v]) => `<div class="bar-h" title="${esc(k)}: ${money(v.rev)} from ${v.n} jobs">
+      <span class="lbl">${esc(k)}</span><span class="track"><span class="fill" style="width:${(v.rev / max) * 100}%"></span></span>
+      <span class="val">${money(v.rev)} <span style="color:var(--muted)">· ${v.n}</span></span></div>`).join("") +
+      `<p class="note">Revenue · number of jobs. Spend marketing money on what's at the top.</p>`
+    : `<div class="empty">No jobs in this range.</div>`;
+}
+
+function renderLoads(jobs) {
+  const rows = LOADS.map(L => {
+    const js = jobs.filter(j => j.Load === L.name); if (!js.length) return null;
+    const avg = f => js.reduce((s, j) => s + f(j), 0) / js.length;
+    const est = L.fill * TRAILER_YD * LBS_PER_YD / 2000 * DUMP_PER_TON;
+    const dump = avg(j => +j.Dump || 0);
+    return {L, n: js.length, price: avg(j => +j.Price || 0), dump, est, hours: avg(j => (+j.Hours || 0) * (+j.People || 0)), profit: avg(j => +j.Profit || 0)};
+  }).filter(Boolean);
+  $("loadTbl").innerHTML = rows.length ? `<table><thead><tr><th>Load</th><th class="n">Jobs</th><th class="n">List price</th><th class="n">Avg collected</th><th class="n">Dump actual</th><th class="n">Dump estimate</th><th class="n">Crew-hours</th><th class="n">Avg profit</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td>${esc(r.L.name)}</td><td class="n">${r.n}</td><td class="n">${money(r.L.price)}</td><td class="n">${money(r.price)}</td>
+      <td class="n${r.dump > r.est * 1.25 ? " flag" : ""}">${money(r.dump)}</td><td class="n">${money(r.est)}</td><td class="n">${r.hours.toFixed(1)}</td><td class="n"><b>${money(r.profit)}</b></td></tr>`).join("") + `</tbody></table>`
+    : `<div class="empty">No jobs in this range.</div>`;
+}
+
+function renderUnpaid() {
+  const u = (DATA.jobs || []).filter(j => j.Payment === "Invoice (unpaid)");
+  $("unpaid").innerHTML = u.length ? u.map(j => `<div class="item"><div><div class="t">${esc(j.Name)}</div>
+      <div class="d">${esc(j.Load)} · done ${ago(j["Logged At"])} by ${esc(j.Crew)}</div></div>
+      <div class="r"><div class="t">${money(+j.Price || 0)}</div><div class="d">${telLink(j.Phone)}</div></div></div>`).join("") +
+      `<p class="note">Mark it paid by changing Payment in the Jobs tab of the sheet.</p>`
+    : `<div class="empty">Everyone's paid up.</div>`;
+}
+
+load();
+</script>
+</body>
+</html>

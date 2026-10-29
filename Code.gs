@@ -14,6 +14,7 @@
 
 var ALERT_EMAIL = '';        // e.g. the business Gmail; leave blank to skip alerts
 var CREW_PIN = '';           // REQUIRED for crew logging: pick a PIN, tell the crew
+var OWNER_PIN = '';          // REQUIRED for owner.html: a different, longer PIN only you know
 var PHOTO_FOLDER = 'Welch Bros Quote Photos';   // Drive folder, created if missing
 var MAX_PHOTOS = 6;
 
@@ -26,13 +27,21 @@ var TABS = {
      'Address', 'City', 'How Soon', 'Photos', 'Quoted $', 'Quoted By']],
   crew_quote: ['Crew Quotes',
     ['Logged At', 'Status', 'Crew', 'Name', 'Phone', 'Address', 'Load', 'Extras',
-     'Total', 'Notes']]
+     'Total', 'Notes']],
+  job_done: ['Jobs',
+    ['Logged At', 'Crew', 'Name', 'Phone', 'Address', 'Load', 'Price', 'Payment',
+     'Dump', 'Scrap', 'People', 'Hours', 'Labor', 'Gas', 'Card Fee', 'Profit',
+     'Source', 'Notes']]
 };
+
+// What the owner dashboard reads, keyed by the name it uses.
+var FEED = { bookings: 'booking', quotes: 'quote', crewQuotes: 'crew_quote', jobs: 'job_done' };
 
 function doPost(e) {
   try {
     var d = JSON.parse(e.postData.contents);
     var type = d.type || 'booking';
+    if (type === 'dashboard') return json(feed_(d.pin));
     if (!TABS[type]) return json({ result: 'error', error: 'unknown type' });
 
     if (type === 'booking') {
@@ -52,9 +61,12 @@ function doPost(e) {
               d.address + ', ' + d.city, 'How soon: ' + d.when].concat(links));
     }
 
-    if (type === 'crew_quote') {
+    if (type === 'crew_quote' || type === 'job_done') {
       if (!CREW_PIN || String(d.pin) !== String(CREW_PIN)) return json({ result: 'error', error: 'wrong PIN' });
-      logCrewQuote_(d);
+      if (type === 'crew_quote') logCrewQuote_(d);
+      else append_(type, [new Date(), d.crew, d.name, d.phone, d.address, d.load, d.price, d.payment,
+                          d.dump, d.scrap, d.people, d.hours, d.labor, d.gas, d.cardFee, d.profit,
+                          d.source, d.notes]);
     }
     return json({ result: 'success' });
   } catch (err) {
@@ -120,6 +132,24 @@ function alert_(subject, lines) {
 // A GET in a browser just confirms the script is live.
 function doGet() {
   return json({ status: 'ok', message: 'Welch Bros endpoint is live.' });
+}
+
+// owner.html posts {type:'dashboard', pin} (PIN in the body, not the URL) and
+// gets every tab back as JSON, rows as {header: value} objects.
+function feed_(pin) {
+  if (!OWNER_PIN || String(pin) !== String(OWNER_PIN)) return { result: 'error', error: 'wrong PIN' };
+  var out = { result: 'success', asOf: new Date().toISOString() };
+  Object.keys(FEED).forEach(function (key) {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(TABS[FEED[key]][0]);
+    var rows = sheet ? sheet.getDataRange().getValues() : [];
+    var head = rows.shift() || [];
+    out[key] = rows.map(function (r) {
+      var o = {};
+      head.forEach(function (h, i) { o[h] = r[i] instanceof Date ? r[i].toISOString() : r[i]; });
+      return o;
+    });
+  });
+  return out;
 }
 
 function json(obj) {
