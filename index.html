@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welch Bros Hauling — Junk Removal in Montgomery, AL</title>
+<meta name="description" content="Family-owned junk removal and hauling in Montgomery, Pike Road, Prattville, Millbrook and Wetumpka. Upfront pricing by trailer load. Book online or text a photo for a quote.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;800&display=swap">
+<style>
+:root{
+  --green:#1F3D2B; --green-dk:#142A1D; --orange:#F26B1D; --bone:#F4F1EA;
+  --line:#D9D4C7; --ink:#1A1A1A; --muted:#4A4A4A; --white:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Archivo',system-ui,sans-serif;color:var(--ink);background:var(--bone);line-height:1.5}
+a{color:var(--green)}
+h1,h2,h3{font-family:'Archivo Black',sans-serif;line-height:1.05;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:10px;font-weight:800;font-size:17px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn-orange{background:var(--orange);color:var(--ink)}
+.btn-orange:hover{background:#E05C10}
+.btn-ghost{background:transparent;color:var(--white);border:2px solid var(--white)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-green{background:var(--green);color:var(--white)}
+.btn-green:hover{background:var(--green-dk)}
+
+/* header */
+header{background:var(--green);color:var(--white);position:sticky;top:0;z-index:10}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--white);text-decoration:none}
+.brand-name{font-family:'Archivo Black',sans-serif;font-size:22px;line-height:1}
+.brand-sub{font-weight:800;font-size:11px;letter-spacing:5px;color:var(--orange)}
+.navlinks{display:flex;gap:22px;align-items:center}
+.navlinks a{color:var(--white);text-decoration:none;font-weight:600}
+.navlinks a:hover{color:var(--orange)}
+@media (max-width:760px){.navlinks .hide-sm{display:none}}
+
+/* hero */
+.hero{background:var(--green);color:var(--white);padding:56px 0 72px}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(40px,7vw,72px)}
+.hero h1 span{color:var(--orange)}
+.hero p{font-size:20px;color:#D9E3DC;max-width:520px;margin:20px 0 28px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-art{display:flex;justify-content:center}
+.trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px;font-weight:600;font-size:15px;color:#D9E3DC}
+@media (max-width:760px){.hero-grid{grid-template-columns:1fr}.hero-art{order:-1}.hero-art svg{width:200px;height:auto}}
+
+section{padding:64px 0}
+.eyebrow{font-weight:800;font-size:13px;letter-spacing:3px;color:var(--orange);margin-bottom:10px}
+h2{font-size:clamp(30px,4.5vw,44px);color:var(--green);margin-bottom:28px}
+
+/* services */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:22px}
+.card h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;margin-bottom:6px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+
+/* pricing */
+#pricing{background:var(--white)}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.price{border:2px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+.price .amt{font-family:'Archivo Black',sans-serif;font-size:32px;color:var(--green)}
+.price .lbl{font-weight:800}
+.price .sub{font-size:14px;color:var(--muted)}
+.fill{height:10px;border-radius:5px;background:var(--bone);margin:10px 0 12px;overflow:hidden}
+.fill i{display:block;height:100%;background:var(--orange)}
+.addons{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 24px;font-size:15px}
+.addons div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0}
+.fine{font-size:14px;color:var(--muted);margin-top:18px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:s}
+.step{position:relative;padding-left:58px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:42px;height:42px;border-radius:21px;background:var(--green);color:var(--white);font-family:'Archivo Black',sans-serif;display:flex;align-items:center;justify-content:center;font-size:20px}
+.step h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;margin-bottom:4px}
+.step p{margin:0;color:var(--muted)}
+
+/* about */
+#about{background:var(--green);color:var(--white)}
+#about h2{color:var(--white)}
+.about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:start}
+.about-grid p{font-size:18px;color:#D9E3DC;margin:0 0 14px}
+.area{background:var(--green-dk);border-radius:14px;padding:22px}
+.area h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;margin-bottom:10px;color:var(--orange)}
+.area ul{margin:0;padding-left:20px}
+@media (max-width:760px){.about-grid{grid-template-columns:1fr}}
+
+/* booking */
+.book{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start}
+@media (max-width:860px){.book{grid-template-columns:1fr}}
+form{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:24px}
+fieldset{border:0;padding:0;margin:0 0 26px}
+legend{font-weight:800;font-size:18px;margin-bottom:12px;color:var(--green)}
+.loads{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt label{display:block;border:2px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;min-height:44px}
+.opt label b{display:block}
+.opt label span{font-size:14px;color:var(--muted)}
+.opt input:checked + label{border-color:var(--green);background:#EEF3EF}
+.opt input:focus-visible + label{outline:3px solid var(--orange);outline-offset:2px}
+.qty{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.qrow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.qrow input{width:64px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+label.l{font-weight:600;font-size:15px}
+input[type=text],input[type=tel],input[type=email],input[type=date],input[type=number],select,textarea{font:inherit;font-size:16px;padding:11px 12px;border:1px solid #B9B3A4;border-radius:10px;background:var(--white);color:var(--ink);min-height:46px;width:100%}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--orange);outline-offset:1px;border-color:var(--green)}
+.check{display:flex;gap:10px;align-items:center;min-height:44px}
+.check input{width:22px;height:22px;accent-color:var(--green)}
+.summary{position:sticky;top:88px;background:var(--green);color:var(--white);border-radius:16px;padding:24px}
+.summary h3{font-size:24px;margin-bottom:14px}
+.srow{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:15px}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px}
+.total b{font-family:'Archivo Black',sans-serif;font-size:36px;color:var(--orange)}
+.summary p{font-size:14px;color:#D9E3DC;margin:12px 0 0}
+.err{color:#B3261E;font-size:14px;font-weight:600;min-height:20px}
+.preview-note{background:#FFF4E5;border:1px solid var(--orange);border-radius:10px;padding:10px 14px;font-size:14px;margin-bottom:18px}
+
+#done{display:none;background:var(--white);border:2px solid var(--green);border-radius:16px;padding:32px;text-align:center}
+#done h3{font-size:34px;color:var(--green);margin-bottom:10px}
+
+footer{background:var(--ink);color:#D9D4C7;padding:36px 0;font-size:15px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer a{color:var(--white)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Welch Bros Hauling home">
+      <svg width="54" height="33" viewBox="0 0 124 76" aria-hidden="true">
+        <path d="M44 36 L102 56 L108 39 L50 19 Z" fill="#F26B1D" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M61 42 L58 58" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+        <path d="M8 62 L30 58 L110 58" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="80" cy="64" r="8" fill="#fff"/><circle cx="96" cy="64" r="8" fill="#fff"/>
+      </svg>
+      <span><span class="brand-name">WELCH BROS</span><br><span class="brand-sub">HAULING</span></span>
+    </a>
+    <nav class="navlinks" aria-label="Main">
+      <a class="hide-sm" href="#services">Services</a>
+      <a class="hide-sm" href="#pricing">Pricing</a>
+      <a class="hide-sm" href="#about">About</a>
+      <a class="btn btn-orange" href="#book">Book now</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>GOT JUNK?<br><span>WE'LL HAUL IT.</span></h1>
+      <p>Family-owned junk removal in Montgomery. We load it, haul it, and sweep up. Upfront pricing by how much of the trailer you fill.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-orange" href="#book">Get your price &amp; book</a>
+        <a class="btn btn-ghost" id="textLink" href="#">Text us a photo</a>
+      </div>
+      <div class="trust">
+        <span>✓ Price before we load</span><span>✓ Usable stuff donated</span><span>✓ Local &amp; family-owned</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg width="360" height="221" viewBox="0 0 124 76" role="img" aria-label="Dump trailer tipping up with junk tumbling out">
+        <path d="M44 36 L102 56 L108 39 L50 19 Z" fill="#F26B1D" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M61 42 L58 58" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M8 62 L30 58 L110 58" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="80" cy="64" r="7" fill="#fff"/><circle cx="96" cy="64" r="7" fill="#fff"/>
+        <circle cx="80" cy="64" r="2.5" fill="#1F3D2B"/><circle cx="96" cy="64" r="2.5" fill="#1F3D2B"/>
+        <rect x="111" y="44" width="7" height="7" rx="1" fill="#fff" transform="rotate(20 114.5 47.5)"/>
+        <rect x="114" y="57" width="6" height="6" rx="1" fill="#F26B1D" transform="rotate(-15 117 60)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="eyebrow">WHAT WE HAUL</div>
+    <h2>If two of us can lift it, it's gone.</h2>
+    <div class="cards">
+      <div class="card"><h3>Furniture &amp; mattresses</h3><p>Couches, recliners, beds, dressers, desks, and whatever's been sitting in the spare room.</p></div>
+      <div class="card"><h3>Appliances</h3><p>Fridges, washers, dryers, water heaters. Metal gets recycled, not landfilled.</p></div>
+      <div class="card"><h3>Garage, attic &amp; shed cleanouts</h3><p>Point at the pile. We sort, load, and sweep the floor when we're done.</p></div>
+      <div class="card"><h3>Yard &amp; renovation debris</h3><p>Limbs, fencing, old decking, drywall, flooring and cabinets from your remodel.</p></div>
+      <div class="card"><h3>Move-outs &amp; estates</h3><p>Moving, PCS orders, or clearing a family home. We handle it with care, on your schedule.</p></div>
+      <div class="card"><h3>Rentals &amp; realtors</h3><p>Fast turnover cleanouts for property managers and listings. Ask about repeat pricing.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">UPFRONT PRICING</div>
+    <h2>You pay for the space you fill.</h2>
+    <div class="price-grid" id="priceGrid"></div>
+    <div class="addons" id="addonList"></div>
+    <p class="fine">Prices include loading, hauling, and disposal. We confirm the final price on site <b>before</b> we load. If it's less than you booked, you pay less. Concrete, dirt, roofing and other heavy debris are quoted by weight on site.</p>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">HOW IT WORKS</div>
+    <h2>Three steps. No surprises.</h2>
+    <div class="steps">
+      <div class="step"><h3>Book online or text a photo</h3><p>Pick a load size and time window. Not sure how much you have? Send a picture and we'll tell you.</p></div>
+      <div class="step"><h3>We confirm before we load</h3><p>We text when we're on the way, look at the pile, and confirm the price. You say go.</p></div>
+      <div class="step"><h3>We haul it and sweep up</h3><p>Usable items go to local donation, metal gets recycled, and the rest is disposed of properly.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">WHO WE ARE</div>
+      <h2>Brothers, granddad's dump trailer, and the work ethic he taught us.</h2>
+      <p>We're a family business from Montgomery. When you book Welch Bros, a Welch brother shows up. We're on time, we're careful in your home, and we leave the space cleaner than we found it.</p>
+      <p>We donate what still has life in it and recycle the metal, so less of your stuff ends up in the landfill.</p>
+    </div>
+    <div class="area">
+      <h3>SERVICE AREA</h3>
+      <ul>
+        <li>Montgomery</li><li>Pike Road</li><li>Prattville</li><li>Millbrook</li><li>Wetumpka</li>
+        <li>Auburn &amp; Opelika <span style="color:#D9E3DC">(+$50 travel)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="wrap">
+    <div class="eyebrow">BOOK A PICKUP</div>
+    <h2>Get your price and pick a time.</h2>
+    <div class="book">
+      <div>
+        <form id="bookForm" novalidate>
+          <div class="preview-note" id="previewNote" hidden>Preview mode: bookings show a confirmation but aren't saved yet.</div>
+
+          <fieldset>
+            <legend>1. How much stuff?</legend>
+            <div class="loads" id="loadOpts"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>2. Any of these? <span style="font-weight:400;font-size:14px;color:var(--muted)">(extra disposal fees)</span></legend>
+            <div class="qty" id="addonOpts"></div>
+            <div class="check" style="margin-top:8px"><input type="checkbox" id="stairs"><label for="stairs">Stairs or a long carry (more than 50 ft) +<span id="stairsFee"></span></label></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>3. When and where?</legend>
+            <div class="two">
+              <div class="field"><label class="l" for="date">Date</label><input type="date" id="date" required></div>
+              <div class="field"><label class="l" for="window">Arrival window</label>
+                <select id="window" required>
+                  <option value="">Choose…</option>
+                  <option>Morning (8–11 AM)</option>
+                  <option>Midday (11 AM–2 PM)</option>
+                  <option>Afternoon (2–5 PM)</option>
+                  <option>Evening (5–7 PM)</option>
+                </select></div>
+            </div>
+            <div class="field"><label class="l" for="address">Street address</label><input type="text" id="address" autocomplete="street-address" required></div>
+            <div class="field"><label class="l" for="city">City</label>
+              <select id="city" required>
+                <option value="">Choose…</option>
+                <option>Montgomery</option><option>Pike Road</option><option>Prattville</option>
+                <option>Millbrook</option><option>Wetumpka</option><option>Auburn / Opelika</option><option>Other (we'll confirm)</option>
+              </select></div>
+            <div class="field"><label class="l" for="items">What are we hauling? Where is it?</label><textarea id="items" placeholder="e.g. old couch and a treadmill in the garage, a few boxes in the attic"></textarea></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>4. Your info</legend>
+            <div class="two">
+              <div class="field"><label class="l" for="name">Name</label><input type="text" id="name" autocomplete="name" required></div>
+              <div class="field"><label class="l" for="phone">Mobile phone</label><input type="tel" id="phone" autocomplete="tel" required></div>
+            </div>
+            <div class="field"><label class="l" for="email">Email <span style="font-weight:400;color:var(--muted)">(optional)</span></label><input type="email" id="email" autocomplete="email"></div>
+            <div class="field"><label class="l" for="source">How did you hear about us?</label>
+              <select id="source"><option value="">Choose…</option><option>Door hanger</option><option>Saw the truck</option><option>Google</option><option>Facebook / Nextdoor</option><option>Friend or neighbor</option><option>Realtor / property manager</option><option>Other</option></select></div>
+          </fieldset>
+
+          <div class="err" id="err" role="alert"></div>
+          <button class="btn btn-orange" type="submit" style="width:100%">Request this pickup</button>
+          <p class="fine" style="text-align:center">We'll text you to confirm within a few hours. Nothing is charged online.</p>
+        </form>
+
+        <div id="done" role="status">
+          <h3>YOU'RE ON THE LIST!</h3>
+          <p id="doneMsg"></p>
+          <p>Have photos? <a id="textLink2" href="#">Text them to us</a> so we can double-check the load size.</p>
+        </div>
+      </div>
+
+      <aside class="summary" aria-live="polite">
+        <h3>YOUR ESTIMATE</h3>
+        <div id="sumRows"></div>
+        <div class="total"><span>Estimated total</span><b id="sumTotal">$0</b></div>
+        <p>Final price confirmed on site before we load. You only pay for what we actually haul.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><b style="color:#fff">Welch Bros Hauling</b> · Family-owned · Montgomery, AL</div>
+    <div>Call or text <a id="phoneLink" href="#"></a></div>
+  </div>
+</footer>
+
+<script>
+// ---- Settings: change these, nothing else ----
+const PHONE = "(334) 555-0123";          // PLACEHOLDER: put the real business line here
+const BOOKING_ENDPOINT = "";             // Google Apps Script Web App URL (see SETUP.md). Empty = preview mode.
+
+const LOADS = [
+  {id:"single", name:"Single item",  fill:.06, price:99,  sub:"One couch, fridge, or mattress set"},
+  {id:"eighth", name:"1/8 trailer",  fill:.125,price:149, sub:"A few big items"},
+  {id:"quarter",name:"1/4 trailer",  fill:.25, price:229, sub:"Small room or garage corner"},
+  {id:"half",   name:"1/2 trailer",  fill:.5,  price:379, sub:"Garage or basement cleanout"},
+  {id:"three",  name:"3/4 trailer",  fill:.75, price:499, sub:"Several rooms"},
+  {id:"full",   name:"Full trailer", fill:1,   price:649, sub:"Whole-house or estate cleanout"},
+];
+const ADDONS = [
+  {id:"mattress", name:"Mattress / box spring", price:25},
+  {id:"tire",     name:"Tire",                  price:10},
+  {id:"freon",    name:"Fridge, freezer or AC unit", price:40},
+];
+const STAIRS = 25, AUBURN_TRAVEL = 50;
+// ----------------------------------------------
+
+const $ = id => document.getElementById(id);
+const money = n => "$" + n.toLocaleString();
+const digits = PHONE.replace(/\D/g, "");
+
+// phone links
+const sms = "sms:+1" + digits;
+["textLink","textLink2"].forEach(i => $(i).href = sms);
+$("phoneLink").href = "tel:+1" + digits; $("phoneLink").textContent = PHONE;
+$("stairsFee").textContent = money(STAIRS);
+if (!BOOKING_ENDPOINT) $("previewNote").hidden = false;
+
+// pricing section
+$("priceGrid").innerHTML = LOADS.map(l => `
+  <div class="price"><div class="lbl">${l.name}</div>
+  <div class="fill" aria-hidden="true"><i style="width:${l.fill*100}%"></i></div>
+  <div class="amt">${money(l.price)}</div><div class="sub">${l.sub}</div></div>`).join("");
+$("addonList").innerHTML = [...ADDONS.map(a => [a.name + " (each)", a.price]),
+  ["Stairs / long carry", STAIRS], ["Auburn / Opelika travel", AUBURN_TRAVEL]]
+  .map(([n,p]) => `<div><span>${n}</span><b>+${money(p)}</b></div>`).join("");
+
+// booking options
+$("loadOpts").innerHTML = LOADS.map((l,i) => `
+  <div class="opt"><input type="radio" name="load" id="ld-${l.id}" value="${l.id}" ${i===3?"checked":""}>
+  <label for="ld-${l.id}"><b>${l.name} · ${money(l.price)}</b><span>${l.sub}</span></label></div>`).join("");
+$("addonOpts").innerHTML = ADDONS.map(a => `
+  <div class="qrow"><label for="ad-${a.id}">${a.name} <span style="color:var(--muted)">+${money(a.price)}</span></label>
+  <input type="number" id="ad-${a.id}" min="0" max="20" value="0" inputmode="numeric"></div>`).join("");
+
+// earliest date = tomorrow
+const t = new Date(); t.setDate(t.getDate() + 1);
+$("date").min = `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}`;
+
+function quote() {
+  const load = LOADS.find(l => l.id === document.querySelector("input[name=load]:checked").value);
+  const rows = [[load.name, load.price]];
+  ADDONS.forEach(a => {
+    const q = Math.max(0, parseInt($("ad-" + a.id).value) || 0);
+    if (q) rows.push([`${a.name} × ${q}`, a.price * q]);
+  });
+  if ($("stairs").checked) rows.push(["Stairs / long carry", STAIRS]);
+  if ($("city").value === "Auburn / Opelika") rows.push(["Auburn / Opelika travel", AUBURN_TRAVEL]);
+  const total = rows.reduce((s, r) => s + r[1], 0);
+  return {load, rows, total};
+}
+function render() {
+  const q = quote();
+  $("sumRows").innerHTML = q.rows.map(([n,p]) => `<div class="srow"><span>${n}</span><span>${money(p)}</span></div>`).join("");
+  $("sumTotal").textContent = money(q.total);
+}
+$("bookForm").addEventListener("input", render);
+$("bookForm").addEventListener("change", render);
+render();
+
+$("bookForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const need = [["date","a date"],["window","an arrival window"],["address","your address"],["city","your city"],["name","your name"],["phone","a phone number"]];
+  const missing = need.find(([id]) => !$(id).value.trim());
+  if (missing) { $("err").textContent = "Please add " + missing[1] + "."; $(missing[0]).focus(); return; }
+  if ($("phone").value.replace(/\D/g,"").length < 10) { $("err").textContent = "Please enter a 10-digit phone number."; $("phone").focus(); return; }
+  $("err").textContent = "";
+
+  const q = quote();
+  const payload = {
+    name: $("name").value.trim(), phone: $("phone").value.trim(), email: $("email").value.trim(),
+    load: q.load.name, extras: q.rows.slice(1).map(r => r[0]).join("; "), estimate: q.total,
+    date: $("date").value, window: $("window").value,
+    address: $("address").value.trim(), city: $("city").value,
+    items: $("items").value.trim(), source: $("source").value,
+  };
+
+  const showDone = () => {
+    $("bookForm").style.display = "none";
+    $("doneMsg").textContent = `Thanks, ${payload.name.split(" ")[0]}! We've got you down for the ${payload.window} window on ${new Date(payload.date + "T12:00").toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}. Estimated ${money(q.total)}. We'll text ${payload.phone} to confirm.`;
+    $("done").style.display = "block";
+    $("done").scrollIntoView({behavior:"smooth", block:"center"});
+  };
+
+  if (!BOOKING_ENDPOINT) { showDone(); return; }   // preview mode until URL is set
+
+  fetch(BOOKING_ENDPOINT, {
+    method: "POST",
+    headers: {"Content-Type": "text/plain;charset=utf-8"}, // "simple" request: no CORS preflight
+    body: JSON.stringify(payload)
+  }).then(showDone).catch(err => {
+    console.error("Booking save failed:", err);
+    console.log("BOOKING (unsaved):", payload);
+    showDone();
+  });
+});
+</script>
+</body>
+</html>
